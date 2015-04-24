@@ -1,20 +1,12 @@
 # vi: ts=4 sts=4 shiftwidth=4 expandtab 
 # filename      : atla.sh
 # DESCRIPTION   : Dizin Atla_X
-# AUTHOR        : Young-gi Park <ghostyak@gmail.com>
-# VERSION       : v0.5
+# AUTHOR        : Seçkin KILINÇ <seckinkilincc@gmail.com>
+# VERSION       : v0.1
 # HISTORY       : 
-#   - 2013-07-02 (v0.1): first release 
-#   - 2013-10-09 (v0.2): speed optimization
-#   - 2014-02-23 (v0.3): refactoring & update display & keymap
-#   - 2014-02-28 (v0.4): support putty + screen environment
-#   - 2014-03-01 (v0.5): support mac os
+#   - 24.04.2015 (v0.1): İlk Sürüm 
 #
 
-#
-# If you are looking for the other key binding, you can use 'cat >/dev/null'
-# command and press any key combinations.
-#
 
 ## setting for the linux terminal
 # CTRL + Up/Down/Right/Left Arrow
@@ -50,7 +42,13 @@ function atla_print_usage
 {
     echo "atla - Dizin Atla_X";
     echo;
-    echo "Usage: ";
+    echo "[ Seçkin KILINÇ <seckinkilincc@gmail.com>]";
+	echo;
+    echo "[seckinkilinc.tk>]";
+    echo;
+    echo "Dizin Atlama Basit Script Kullanım Kılavuzu";
+    echo;
+    echo "Kullanım: ";
     echo "    atla                 : Dizini Yazar";
     echo "    atla [index]         : Dizini Index Ayarlar";
     echo "    atla add             : Bulunduğun Dizini Ekler";
@@ -95,6 +93,10 @@ function atla_ctrl_up
 
     # print current dir list
     echo "[ Dizin Atla_X ]";
+	echo;
+    echo "[ Seçkin KILINÇ <seckinkilincc@gmail.com>]";
+	echo;
+    echo "[seckinkilinc.tk>]";
     echo;
     atla_dirs;
     
@@ -115,6 +117,10 @@ function atla_ctrl_down
 
     # print current dir list
     echo "[ Dizin Atla_X ]";
+	echo;
+    echo "[ Seçkin KILINÇ <seckinkilincc@gmail.com>]";
+	echo;
+    echo "[seckinkilinc.tk>]";
     echo;
     atla_dirs;
 
@@ -143,12 +149,16 @@ function atla_ctrl_left
     cd ..;
 
     # print current dir
-    echo    "[ Dizin Atla_X ]";
+    echo "[ Dizin Atla_X ]";
+	echo;
+    echo "[ Seçkin KILINÇ <seckinkilincc@gmail.com>]";
+	echo;
+    echo "[seckinkilinc.tk>]";
     echo;
     echo -e "    TOP: \033[7m`head -n1 $atla_FNAME_STACK`\033[27m";
     echo    "    PWD: $PWD";
     echo;
-    echo    "(See 'atla help' for for information)";
+    echo    "(Daha Fazla Bilgi İçin 'atla help' yazabilirsiniz.)";
     echo;
 
     # delete last history
@@ -171,6 +181,10 @@ function atla_ctrl_right
 
     # print current dir
     echo "[ Dizin Atla_X ]";
+	echo;
+    echo "[ Seçkin KILINÇ <seckinkilincc@gmail.com>]";
+	echo;
+    echo "[seckinkilinc.tk>]";
     echo;
     if [ -e $ATLA_FNAME_STACK ]; then
         echo -e "    TOP: \033[7m`head -n1 $ATLA_FNAME_STACK`\033[27m";
@@ -179,7 +193,7 @@ function atla_ctrl_right
     fi
     echo "    PWD: $PWD";
     echo;
-    echo "(See 'atla help' for for information)";
+    echo    "(Daha Fazla Bilgi İçin 'atla help' yazabilirsiniz.)";
     echo;
 
     # delete last history
@@ -255,7 +269,7 @@ function atla_dirs
     done < <(cat -n $ATLA_FNAME_ABS)
 
     echo;
-    echo "(See 'atla help' for for information)";
+    echo    "(Daha Fazla Bilgi İçin 'atla help' yazabilirsiniz.)";
     echo;
 }
 
