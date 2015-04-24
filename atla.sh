@@ -37,12 +37,12 @@ bind '"\e\e[B":"atla_ctrl_down\C-m"'  2> /dev/null
 bind '"\e\e[C":"atla_ctrl_right\C-m"'  2> /dev/null
 bind '"\e\e[D":"atla_ctrl_left\C-m"' 2> /dev/null
 
-export DJ_HOME=$HOME/.atla/
-export DJ_FNAME_ABS=$ATLA_HOME/dirlist
-export DJ_FNAME_TEMP=$ATLA_HOME/dirlist.tmp
-export DJ_FNAME_SAVE=$ATLA_HOME/dirlist.save
-export DJ_FNAME_STACK=$ATLA_HOME/dirlist.stack
-export DJ_READLINK=$HOME/.atla/readlink.sh
+export ATLA_HOME=$HOME/.atla/
+export ATLA_FNAME_ABS=$ATLA_HOME/dirlist
+export ATLA_FNAME_TEMP=$ATLA_HOME/dirlist.tmp
+export ATLA_FNAME_SAVE=$ATLA_HOME/dirlist.save
+export ATLA_FNAME_STACK=$ATLA_HOME/dirlist.stack
+export ATLA_READLINK=$HOME/.atla/readlink.sh
 
 # Brief: Print usage
 # Usage: atla_print_usage
@@ -204,7 +204,7 @@ function atla_push_dir_into_stack
 # Usage: atla_pop_dir_from_stack
 function atla_pop_dir_from_stack
 {
-    # delete last line at $DJ_FNAME_STACK
+    # delete last line at $ATLA_FNAME_STACK
     if [ -e $ATLA_FNAME_STACK ];then
         sed -itmp '$ d' $ATLA_FNAME_STACK
         rm -f $ATLA_FNAME_STACK"tmp"
@@ -316,7 +316,7 @@ function atla_rm
     # Check argument whether number.
     if [ ! $(echo $1 | sed -n '/^[0-9][0-9]*$/p') ]; then
         echo "error: Input number" 1>&2
-        dj_print_usage;
+        atla_print_usage;
         return;
     fi
 
@@ -377,7 +377,7 @@ function atla_next
     fi
 
     #change directory
-    dj_go $index_curr;
+    atla_go $index_curr;
     return 0;
 }
 
@@ -422,7 +422,7 @@ function atla_go
     fi
 
     # get directory by index
-    DJ_TARGET=$(cat -n $ATLA_FNAME_ABS | grep "^[[:space:]]*$1[[:space:]]" | awk '{print $2}');
+    ATLA_TARGET=$(cat -n $ATLA_FNAME_ABS | grep "^[[:space:]]*$1[[:space:]]" | awk '{print $2}');
 
     # go
     ! [ -z $ATLA_TARGET ] && cd $ATLA_TARGET;
