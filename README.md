@@ -11,7 +11,7 @@ atla is available for `Linux`, `OS X`
 
 ````
 Usage: 
-    atla                 : print directories
+    atla                 : Dizini Yazar
     atla [index]         : change directory by index
     atla add             : add current directory
     atla add [dir]       : add directory
@@ -50,5 +50,9 @@ by simply coping and pasting the following line into a terminal.
 git clone https://github.com/xembill/atla
 cd atla
 ./bootstrap.sh
+
+//İzin Hatası Verirse
+ chmod u+x bootstrap.sh
+
 ````
 
