@@ -38,10 +38,10 @@ bind '"\e\e[C":"atla_ctrl_right\C-m"'  2> /dev/null
 bind '"\e\e[D":"atla_ctrl_left\C-m"' 2> /dev/null
 
 export DJ_HOME=$HOME/.atla/
-export DJ_FNAME_ABS=$DJ_HOME/dirlist
-export DJ_FNAME_TEMP=$DJ_HOME/dirlist.tmp
-export DJ_FNAME_SAVE=$DJ_HOME/dirlist.save
-export DJ_FNAME_STACK=$DJ_HOME/dirlist.stack
+export DJ_FNAME_ABS=$ATLA_HOME/dirlist
+export DJ_FNAME_TEMP=$ATLA_HOME/dirlist.tmp
+export DJ_FNAME_SAVE=$ATLA_HOME/dirlist.save
+export DJ_FNAME_STACK=$ATLA_HOME/dirlist.stack
 export DJ_READLINK=$HOME/.atla/readlink.sh
 
 # Brief: Print usage
@@ -51,34 +51,34 @@ function atla_print_usage
     echo "atla - Dizin Atla_X";
     echo;
     echo "Usage: ";
-    echo "    atla                 : print directories";
-    echo "    atla [index]         : change directory by index";
-    echo "    atla add             : add current directory";
-    echo "    atla add [dir]       : add directory";
-    echo "    atla rm              : remove current directory";
-    echo "    atla rm [index]      : remove directory by index";
-    echo "    atla save <filename> : save dir list into the file";
-    echo "    atla load <filename> : load dir list from the file";
-    echo "    atla clean           : clean the stack";
-    echo "    atla help            : print usage";
+    echo "    atla                 : Dizini Yazar";
+    echo "    atla [index]         : Dizini Index Ayarlar";
+    echo "    atla add             : Bulunduğun Dizini Ekler";
+    echo "    atla add [dir]       : Dizin Ekler";
+    echo "    atla rm              : Bulunduğun Dizini Siler";
+    echo "    atla rm [index]      : Index Dizinini Siler";
+    echo "    atla save <filename> : Ayarları Dosyaya Yazar";
+    echo "    atla load <filename> : Ayarları Dosyadan Alır";
+    echo "    atla clean           : Herşeyi Siler";
+    echo "    atla help            : Kullanım Klavuzu";
     echo;
     echo "Key Map (normal):";
-    echo "    CTRL + Up Arrow       : move previous";
-    echo "    CTRL + Down Arrow     : move next";
-    echo "    CTRL + Left Arrow     : jump down";
-    echo "    CTRL + Right Arrow    : jump up";
+    echo "    CTRL + Yukarı OK       : Öncekine Atlar";
+    echo "    CTRL + Aşağı OK     : Sonrakine Atlar";
+    echo "    CTRL + Sol OK     : Aşağı Atlar";
+    echo "    CTRL + Sağ OK    : Yukarı Atlar";
     echo;
     echo "Key Map (putty + screen):";
-    echo "    ALT + Up Arrow       : move previous";
-    echo "    ALT + Down Arrow     : move next";
-    echo "    ALT + Left Arrow     : jump down";
-    echo "    ALT + Right Arrow    : jump up";
+    echo "    ALT + Yukarı OK       :  Öncekine Atlar";
+    echo "    ALT + Aşağı OK     : Sonrakine Atlar";
+    echo "    ALT + Sol OK     : Aşağı Atlar";
+    echo "    ALT + Sağ OK    : Yukarı Atlar";
     echo;
     echo "Key Map (mac os):";
-    echo "    ESC + Up Arrow       : move previous";
-    echo "    ESC + Down Arrow     : move next";
-    echo "    ESC + Left Arrow     : jump down";
-    echo "    ESC + Right Arrow    : jump up";
+    echo "    ESC + Yukarı OK       :Öncekine Atlar";
+    echo "    ESC + Aşağı OK     : Sonrakine Atlar";
+    echo "    ESC + Sol OK     : Aşağı Atlar";
+    echo "    ESC + Sağ OK    : Yukarı Atlar";
     echo;
 }
 
@@ -87,7 +87,7 @@ function atla_print_usage
 function atla_ctrl_up
 {
     # clear stack
-    rm -f $atla_FNAME_STACK;
+    rm -f $ATLA_FNAME_STACK;
 
     # move previous directory
     clear;
@@ -107,7 +107,7 @@ function atla_ctrl_up
 function atla_ctrl_down
 {
     # clear stack
-    rm -f $atla_FNAME_STACK;
+    rm -f $ATLA_FNAME_STACK;
     
     # move next directory
     clear;
@@ -132,9 +132,9 @@ function atla_ctrl_left
     clear;
 
     # discards stack
-    grep "$PWD" $atla_FNAME_STACK > /dev/null 2>&1;
+    grep "$PWD" $ATLA_FNAME_STACK > /dev/null 2>&1;
     if [ $? = $is_diffrent_line ]; then
-        rm -f $atla_FNAME_STACK;
+        rm -f $ATLA_FNAME_STACK;
     fi
 
     atla_push_dir_into_stack;
@@ -160,10 +160,10 @@ function atla_ctrl_left
 function atla_ctrl_right
 {
     clear;
-    if [ -e $atla_FNAME_STACK ]; then
+    if [ -e $ATLA_FNAME_STACK ]; then
 
         # go up
-        cd $(tail -n1 $atla_FNAME_STACK);
+        cd $(tail -n1 $ATLA_FNAME_STACK);
 
         # pop stack
         atla_pop_dir_from_stack;
@@ -172,8 +172,8 @@ function atla_ctrl_right
     # print current dir
     echo "[ Dizin Atla_X ]";
     echo;
-    if [ -e $atla_FNAME_STACK ]; then
-        echo -e "    TOP: \033[7m`head -n1 $atla_FNAME_STACK`\033[27m";
+    if [ -e $ATLA_FNAME_STACK ]; then
+        echo -e "    TOP: \033[7m`head -n1 $ATLA_FNAME_STACK`\033[27m";
     else
         echo -e "    TOP: \033[7m$PWD\033[27m";
     fi
@@ -191,12 +191,12 @@ function atla_ctrl_right
 # Usage: atla_push_dir_into_stack
 function atla_push_dir_into_stack
 {
-    if [ -e $atla_FNAME_STACK ] \
-        && [ $(tail -n1 $atla_FNAME_STACK) != $PWD ] \
+    if [ -e $ATLA_FNAME_STACK ] \
+        && [ $(tail -n1 $ATLA_FNAME_STACK) != $PWD ] \
         && [ $PWD != "/" ]; then
-        echo $PWD >> $atla_FNAME_STACK;
-    elif ! [ -e $atla_FNAME_STACK ]; then
-        echo $PWD >> $atla_FNAME_STACK;
+        echo $PWD >> $ATLA_FNAME_STACK;
+    elif ! [ -e $ATLA_FNAME_STACK ]; then
+        echo $PWD >> $ATLA_FNAME_STACK;
     fi
 }
 
@@ -205,36 +205,36 @@ function atla_push_dir_into_stack
 function atla_pop_dir_from_stack
 {
     # delete last line at $DJ_FNAME_STACK
-    if [ -e $atla_FNAME_STACK ];then
-        sed -itmp '$ d' $atla_FNAME_STACK
-        rm -f $atla_FNAME_STACK"tmp"
+    if [ -e $ATLA_FNAME_STACK ];then
+        sed -itmp '$ d' $ATLA_FNAME_STACK
+        rm -f $ATLA_FNAME_STACK"tmp"
     fi
 
-    # if file size 0 then delete $atla_FNAME_STACK file
-    ! [ -s $atla_FNAME_STACK ] && rm -f $atla_FNAME_STACK;
+    # if file size 0 then delete $ATLA_FNAME_STACK file
+    ! [ -s $ATLA_FNAME_STACK ] && rm -f $ATLA_FNAME_STACK;
 }
 
 # Brief: Remove directories that is not exist
 # Usage: atla_reload_only_exist_dir
 function atla_reload_only_exist_dir
 {
-    rm -f $atla_FNAME_TEMP && touch $atla_FNAME_TEMP;
-    ! [ -f $atla_FNAME_ABS ] && touch $atla_FNAME_ABS;
+    rm -f $ATLA_FNAME_TEMP && touch $ATLA_FNAME_TEMP;
+    ! [ -f $ATLA_FNAME_ABS ] && touch $ATLA_FNAME_ABS;
 
     while read line; do
         if [ -d $line ]; then
-            echo "$line" >> $atla_FNAME_TEMP;
+            echo "$line" >> $ATLA_FNAME_TEMP;
         fi
-    done < <(cat $atla_FNAME_ABS)
+    done < <(cat $ATLA_FNAME_ABS)
 
-    mv -f $atla_FNAME_TEMP $atla_FNAME_ABS;
+    mv -f $ATLA_FNAME_TEMP $ATLA_FNAME_ABS;
 }
 
 # Brief: Display directory list
 # Usage: atla_dirs
 function atla_dirs
 {
-    LINE_COUNT=$(wc -l $atla_FNAME_ABS | awk '{print $1}');
+    LINE_COUNT=$(wc -l $ATLA_FNAME_ABS | awk '{print $1}');
     if [ "$LINE_COUNT" == "0" ]; then
         echo "(empty stack. 'atla --help')";
         return;
@@ -252,7 +252,7 @@ function atla_dirs
         else
             echo "    $line";
         fi
-    done < <(cat -n $atla_FNAME_ABS)
+    done < <(cat -n $ATLA_FNAME_ABS)
 
     echo;
     echo "(See 'atla help' for for information)";
@@ -269,11 +269,11 @@ function atla_add
         return 1;
     fi
 
-    echo $($atla_READLINK $1) >> $atla_FNAME_ABS;
+    echo $($ATLA_READLINK $1) >> $ATLA_FNAME_ABS;
     atla_reload_only_exist_dir;
 
-    sort -u $atla_FNAME_ABS -o $atla_FNAME_TEMP;
-    mv -f $atla_FNAME_TEMP $atla_FNAME_ABS;
+    sort -u $ATLA_FNAME_ABS -o $ATLA_FNAME_TEMP;
+    mv -f $ATLA_FNAME_TEMP $ATLA_FNAME_ABS;
 
     return;
 }
@@ -282,7 +282,7 @@ function atla_add
 # Usage:
 function atla_clean
 {
-    rm -f $atla_FNAME_ABS && touch $atla_FNAME_ABS;
+    rm -f $ATLA_FNAME_ABS && touch $ATLA_FNAME_ABS;
 }
 
 # Brief: Save a directory list to the filepath.
@@ -293,7 +293,7 @@ function atla_save
     [ "$#" = 0 ] && return 0;
     atla_reload_only_exist_dir;
 
-    cp $atla_FNAME_ABS $1;
+    cp $ATLA_FNAME_ABS $1;
 }
 
 # Brief: Load a directory list from the filepath.
@@ -303,7 +303,7 @@ function atla_load
     # error handling
     [ "$#" = 0 ] && return 0;
 
-    cp $1 $atla_FNAME_ABS;
+    cp $1 $ATLA_FNAME_ABS;
 
     # error handling
     atla_reload_only_exist_dir;
@@ -322,33 +322,33 @@ function atla_rm
 
     atla_reload_only_exist_dir;
 
-    rm -f $atla_FNAME_TEMP && touch $atla_FNAME_TEMP;
+    rm -f $ATLA_FNAME_TEMP && touch $ATLA_FNAME_TEMP;
 
     # Save all directoryes without target.
     while read line;
     do
         index=$(echo $line | awk '{print $1}');
         directory=$(echo $line | awk '{print $2}');
-        [ "$index" -ne "$1" ] && echo $directory >> $atla_FNAME_TEMP;
-    done < <(cat -n $atla_FNAME_ABS)
+        [ "$index" -ne "$1" ] && echo $directory >> $ATLA_FNAME_TEMP;
+    done < <(cat -n $ATLA_FNAME_ABS)
 
-    mv -f $atla_FNAME_TEMP $atla_FNAME_ABS;
+    mv -f $ATLA_FNAME_TEMP $ATLA_FNAME_ABS;
 
     return 0;
 }
 
 function atla_rm_by_dirname
 {
-    rm -f $atla_FNAME_TEMP && touch $atla_FNAME_TEMP;
+    rm -f $ATLA_FNAME_TEMP && touch $ATLA_FNAME_TEMP;
 
     while read line;
     do
-        if [[ ! "$line" == "$($atla_READLINK $1)" ]]; then
-            echo "$line" >> $atla_FNAME_TEMP;
+        if [[ ! "$line" == "$($ATLA_READLINK $1)" ]]; then
+            echo "$line" >> $ATLA_FNAME_TEMP;
         fi
-    done < <(cat $atla_FNAME_ABS)
+    done < <(cat $ATLA_FNAME_ABS)
 
-    mv -f $atla_FNAME_TEMP $atla_FNAME_ABS;
+    mv -f $ATLA_FNAME_TEMP $ATLA_FNAME_ABS;
 }
 
 
@@ -366,10 +366,10 @@ function atla_next
         if [[ $PWD == $directory ]];then
             index_curr=$index;
         fi
-    done < <(cat -n $atla_FNAME_ABS)
+    done < <(cat -n $ATLA_FNAME_ABS)
 
     index_curr=$(expr $index_curr + 1);
-    index_end=$(wc -l $atla_FNAME_ABS | awk '{print $1}');
+    index_end=$(wc -l $ATLA_FNAME_ABS | awk '{print $1}');
 
     #roll back
     if [ $index_curr -gt $index_end ]; then
@@ -396,10 +396,10 @@ function atla_prev
             index_curr=$index;
         fi
 
-    done < <(cat -n $atla_FNAME_ABS)
+    done < <(cat -n $ATLA_FNAME_ABS)
 
     index_curr=$(expr $index_curr - 1);
-    index_end=$(wc -l $atla_FNAME_ABS | awk '{print $1}');
+    index_end=$(wc -l $ATLA_FNAME_ABS | awk '{print $1}');
 
     #roll back
     if [ $index_curr -lt 1 ]; then
@@ -422,16 +422,16 @@ function atla_go
     fi
 
     # get directory by index
-    DJ_TARGET=$(cat -n $atla_FNAME_ABS | grep "^[[:space:]]*$1[[:space:]]" | awk '{print $2}');
+    DJ_TARGET=$(cat -n $ATLA_FNAME_ABS | grep "^[[:space:]]*$1[[:space:]]" | awk '{print $2}');
 
     # go
-    ! [ -z $atla_TARGET ] && cd $atla_TARGET;
+    ! [ -z $ATLA_TARGET ] && cd $ATLA_TARGET;
 }
 
 function atla
 {
-    if [ ! -f $atla_FNAME_ABS ]; then
-        touch $atla_FNAME_ABS
+    if [ ! -f $ATLA_FNAME_ABS ]; then
+        touch $ATLA_FNAME_ABS
     fi
 
     case $1 in
