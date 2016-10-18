@@ -117,19 +117,19 @@ setup_bashrc() {
 
 ############################ MAIN()
 
-program_exists "git" "To install $app_name you first need to install Git."
+program_exists "git" "$app_name 'yı kullanabilmek için ilk önce Git yükleyin."
 
 do_backup   "Your old git stuff has a suffix now and looks like $HOME/.$app_name.`date +%Y%m%d%S`" \
     "$HOME/.$app_name"
 
-clone_repo      "Successfully cloned $app_name"
+clone_repo      " $app_name başarıyla kopyalandı."
 
-setup_bashrc "Successfully setup for '$HOME/$bashrc'"
+setup_bashrc " '$HOME/$bashrc' dizinine başarıyla yüklendi, Teşekkürler... "
 
-msg             "\n * Type 'source $HOME/$bashrc' to finish the installation."
-msg             " * Or installation is applied since next terminal."
+msg             "\n * Kurulumu bitirmek için >  'source $HOME/$bashrc' komutunu girin..."
+msg             " * Yada bir sonraki oturumunuzda otomatik etkinleştirilecektir. "
 
-msg             "\nThanks for installing $app_name."
+msg             "\nTeşekkürler $app_name."
 msg             "© `date +%Y` $git_uri \n"
 
 
