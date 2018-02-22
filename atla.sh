@@ -250,7 +250,7 @@ function atla_dirs
 {
     LINE_COUNT=$(wc -l $ATLA_FNAME_ABS | awk '{print $1}');
     if [ "$LINE_COUNT" == "0" ]; then
-        echo "(empty stack. 'atla --help')";
+        echo "(Henüz hiçbir klasör eklemediniz. Yardım için : 'atla --help')";
         return;
     fi
 
