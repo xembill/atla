@@ -527,3 +527,12 @@ function atla
         
     esac
 }
+
+# ekstra kısayollar 
+alias nnd='nano /etc/nginx/sites-available/default'
+alias ser='service $1 $2'
+alias sers='service $1 status'
+alias serr='service $1 restart'
+alias apin='apt install $1'
+alias remcd='rm -rf ./*'
+alias remcda='rm -rf ./.*'
