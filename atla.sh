@@ -78,6 +78,15 @@ function atla_print_usage
     echo "    ESC + Sol OK     : Aşağı Atlar";
     echo "    ESC + Sağ OK    : Yukarı Atlar";
     echo;
+    echo "# ekstra kısayollar";
+    echo "alias nnd=nano /etc/nginx/sites-available/default";
+    echo "alias ser=service $1 $2";
+    echo "alias sers=service $1 status";
+    echo "alias serr=service $1 restart";
+    echo "alias apin=apt install $1";
+    echo "alias remcd=rm -rf ./*";
+    echo "alias remcda=rm -rf ./.*";
+    echo;
 }
 
 # Brief:
