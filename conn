@@ -1,0 +1,1 @@
+Connect to arduino Wifi 2. Use any web explorer to open: 192.168.1.240/arduino 3. Go to Wifi console. 4. Use the command to update the price: “actualizar/10.23” will show a price of $10.23
